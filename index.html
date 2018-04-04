@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" ng-app="mainApp">
+<head>
+	
+	<title>Anima</title>
+	<meta charset="utf-8">
+
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+	
+    <!-- Favicons -->
+    <link rel="icon" href="img/favicon-16.png" sizes="16x16">
+    <link rel="icon" href="img/favicon-24.png" sizes="24x24">
+	<link rel="icon" href="img/favicon-32.png" sizes="32x32">
+	<link rel="icon" href="img/favicon-72.png" sizes="72x72">
+	<link rel="icon" href="img/favicon-96.png" sizes="96x96">
+	<link rel="icon" href="img/favicon-114.png" sizes="114x114">
+	<link rel="icon" href="img/favicon-128.png" sizes="128x128">
+	<link rel="icon" href="img/favicon-144.png" sizes="144x144">
+	<link rel="icon" href="img/favicon-160.png" sizes="256x160">
+	<style>
+		.txtRotateh1{
+		font-family: 'Raleway', sans-serif;
+		padding: 1em 2em;
+		font-size: 2rem;
+		background: #222;
+		color: #30ad1b;
+		font-weight: 200;
+		margin: 0.4em 0;
+		position: fixed;
+		bottom: 0px;
+		width: 100%;
+		
+	  }
+	  .pularintro{
+		color:#878788;
+		font-size: 24px;
+		margin-top: 10px;
+		cursor: pointer;
+	  }
+	</style>
+    <!-- Favicons -->
+	
+</head>
+<body class="noselect">
+	<div class="rotate" onclick="removeRotateGif()"></div>
+
+<div ng-controller="ctrl" id="mainCtrl" class="mainContent">
+	<div class="navbar-fixed" ng-init="loadCtrl()">
+		<nav class="nav-extended">
+		 <div class="nav-wrapper container">
+		  
+		  <a data-activates="slide-out" id="mobileMenu" class="button-collapse"><i class="material-icons"  >menu</i></a>
+		  <label class="mainHeader" >Anima.</label> 
+		  <span id="subtitle">NAVI</span>
+		  
+		  <ul id="nav-mobile" class="right hide-on-med-and-down">
+			  <li></li>
+			<!-- <li><a href="#sobre">O que é?</a></li>
+			<li><a href="#comofunciona">Como funciona</a></li> -->
+		  </ul>
+		  <ul class="side-nav" id="slide-out" >
+			<!-- <li><a href="#sobre">O que é?</a></li>
+			<li><a href="#comofunciona">Como funciona</a></li> -->
+		  </ul>
+		 </div>
+		</nav>
+	</div>
+	<div class="navbar-fixed hide-on-med-and-down " style="display:none;" >
+		<nav class="nav-extended sub-menu">
+			<div class="nav-wrapper container">
+			
+			</div>
+		</nav>
+	</div>
+	<div class="container">
+		<div class="row mt20">
+			<div class="col s12 m12 l12 xl12 center"  >
+				<my-histogram ng-repeat="cd in mainObjs"
+					data=cd
+					main="true"
+					top="true"
+					up="goup()"
+					showup="prevParent != null"
+					dlg="openHistDlg(label)"
+				></my-histogram>
+				
+			</div>
+		</div>
+		<div class="row chartMinis">
+			<div class="col s12 m12 " ng-class="{'l6 xl6':mainObj.childs.length <=3, 'l6 xl6':mainObj.childs.length > 3}">
+				<h5 class="hBest" ng-hide="prevParent==null">Destaques</h5>
+				<my-histogram ng-repeat="cd in mainObj.childs.top(3)"
+					data="cd"
+					index="$index"
+					top="false"
+					main="true"
+					fn="inside(index)"
+					dlg="openHistDlg(label)"
+				></my-histogram>
+			</div>
+			<div class="col s12 m12 l6 xl6" ng-show="mainObj.childs.length > 3">
+				<h5 class="hWorst">Atenção</h5>
+				<my-histogram ng-repeat="cd in mainObj.childs.bottom(3)"
+					data="cd"
+					main="false"
+					top="false"
+					index="$index"
+					fn="inside(index)"
+					dlg="openHistDlg(label)"
+				></my-histogram>
+			</div>
+		</div>
+	</div>
+	
+
+
+	<div class="fixed-action-btn">
+		<a class="btn-floating btn-large ">
+		  <i class="large material-icons">mode_edit</i>
+		</a>
+		<ul>
+		  <li><a ng-click="openNotes()" class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+		  
+		  
+		</ul>
+	  </div>
+	
+	  <div id="modalNodes" class="modal"  >
+		<i class="small material-icons closeFixedIcon roundIcon" onclick="closeChartDialog(this)"  title="Fechar" >cancel</i> 
+		<div class="modal-content">
+			<div class="ta">
+				<textarea ng-model="txtNote" placeholder="deixa aqui seu comentário!"></textarea>	
+			</div>
+			<div class="ft">
+				<a class="waves-effect waves-light btn bgc"><i class="material-icons left">save</i>salvar</a>
+			</div>
+			
+		</div>	
+	</div>
+	<div id="modal1" class="modal"  >
+		<i class="small material-icons closeFixedIcon roundIcon" onclick="closeChartDialog(this)"  title="Fechar" >cancel</i> 
+		<div class="modal-content">
+			<h5 class="modalTitle">{{modalTitle}}</h5>
+			<div id="modalHistogram"></div>
+		</div>	
+	</div>
+
+	
+	
+	
+</div>
+<footer class="row">
+	<div class="container">
+		
+	</div>
+</footer>
+
+
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+	<script src="js/materialize.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="js/util.js"  charset="utf-8" ></script>
+	<script src="js/dataManager.js"  charset="utf-8" ></script>
+	<script src="js/histogram.js"  charset="utf-8" ></script>
+	<script src="js/main.js"  charset="utf-8" ></script>
+	<script src="js/init.js"></script>
+	<!-- <script src="json/last24.js"></script>
+	<script src="json/bigList.js"></script> -->
+	   
+</body>
+
+</html>
