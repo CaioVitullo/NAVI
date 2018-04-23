@@ -27,7 +27,7 @@ function dataManager($http, me){
 		}
 	};
     me.defaultFiles = [
-		{index:0, name:'anima'},
+		{index:0, name:'source'},
 		];
 
 	me.defaultLists = [];
@@ -37,7 +37,7 @@ function dataManager($http, me){
 			var file = me.defaultFiles[i].name;
 			var index = me.defaultFiles[i].index;
 			var url = 'data/' + file + '.txt';
-			if(me.defaultFiles[i].name =='anima'){
+			if(me.defaultFiles[i].name =='source'){
 				me.getFile(url, index, afterBigList);
 			}else if(me.defaultFiles[i].name =='last24'){
 				me.getFile(url, index, fn);

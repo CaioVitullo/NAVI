@@ -23,13 +23,113 @@ function histogramManager(me){
     
     me.inside = function(index){
         me.prevParent = me.mainObj;
-        me.mainObj =me.mainObj.childs[index];
+        me.mainObj =me.mainObj.childs.first({ID:index});
         me.mainObj.childs = me.mainObj.childs.sort(function(a,b){
-            return b.total - a.total;
-        });
+            return b.DPQ.valor - a.DPQ.valor;
+		});
+		me.updateFilter(me.mainObj.childs);
         me.mainObjs=[me.mainObj];    
 		$("html, body").animate({ scrollTop: 0 }, "slow");
 	};
+	me.qualidadeDeEnsinoFilterHist=[];
+	
+	me.filterQualidadeEnsino = 100;
+	me.calcQualidadeDeEnsinoFilterHist = function(list){
+		var count = list.length;
+		me.qualidadeDeEnsinoFilterHist=[];
+		var avg = list.select('QualidadeEnsino').avg().toFixed(0);
+		var target = 70;
+		for(var i=2;i<100;i++){
+			var c =list.count(function(x){return x.QualidadeEnsino <= i;}); 
+			me.qualidadeDeEnsinoFilterHist.push({
+				h:(100*c/count).toFixed(2),
+				w:1,
+				v:i,
+				isAvg:i==avg,
+				isTarget:i==target
+			})
+		}
+		me.QualidadeEnsinoMetadata = {
+			belowAvg:(100 * list.count(function(x){return x.QualidadeEnsino < avg;})/count).toFixed(2),
+			belowTarget:(100 * list.count(function(x){return x.QualidadeEnsino < target;})/count).toFixed(2),
+			target:target,
+			avg:avg
+		};
+	};
+	me.filterQualidadeServico = 100;
+	me.qualidadeServicoFilterHist=[];
+	
+	me.calcQualidadeDeServicoFilterHist = function(list){
+		var count = list.length;
+		me.qualidadeServicoFilterHist=[];
+		var avg = list.select('QualidadeServico').avg().toFixed(0);
+		var target = 70;
+		for(var i=2;i<100;i++){
+			var c =list.count(function(x){return x.QualidadeServico <= i;}); 
+			me.qualidadeServicoFilterHist.push({
+				h:(100*c/count).toFixed(2),
+				w:1,
+				v:i,
+				isAvg:i==avg,
+				isTarget:i==target
+			})
+		}
+		me.QualidadeServicoMetadata = {
+			belowAvg:(100 * list.count(function(x){return x.QualidadeServico < avg;})/count).toFixed(2),
+			belowTarget:(100 * list.count(function(x){return x.QualidadeServico < target;})/count).toFixed(2),
+			target:target,
+			avg:avg
+		};
+	};
+	me.filterICC = 100;
+	me.ICCFilterHist=[];
+	me.calcICCFilterHist = function(list){
+		var count = list.length;
+		me.ICCFilterHist=[];
+		var avg = list.select('ICC').avg().toFixed(0);
+		var target = 70;
+		for(var i=2;i<100;i++){
+			var c =list.count(function(x){return x.ICC <= i;}); 
+			me.ICCFilterHist.push({
+				h:(100*c/count).toFixed(2),
+				w:1,
+				v:i,
+				isAvg:i==avg,
+				isTarget:i==target
+			})
+		}
+		me.ICCMetadata = {
+			belowAvg:(100 * list.count(function(x){return x.ICC < avg;})/count).toFixed(2),
+			belowTarget:(100 * list.count(function(x){return x.ICC < target;})/count).toFixed(2),
+			target:target,
+			avg:avg
+		};
+	};
+	me.filterCarreiraEmpregabilidade= 100;
+	me.carreiraEmpregabilidadeHist=[];
+	me.calcCarreiraEmpregabilidadeFilterHist = function(list){
+		var count = list.length;
+		me.carreiraEmpregabilidadeHist=[];
+		var avg = list.select('CarreiraEmpregabilidade').avg().toFixed(0);
+		var target = 70;
+		for(var i=2;i<100;i++){
+			var c =list.count(function(x){return x.CarreiraEmpregabilidade <= i;}); 
+			me.carreiraEmpregabilidadeHist.push({
+				h:(100*c/count).toFixed(2),
+				w:1,
+				v:i,
+				isAvg:i==avg,
+				isTarget:i==target
+			})
+		};
+		me.carreiraEmpregabilidadeMetadata = {
+			belowAvg:(100 * list.count(function(x){return x.CarreiraEmpregabilidade < avg;})/count).toFixed(2),
+			belowTarget:(100 * list.count(function(x){return x.CarreiraEmpregabilidade < target;})/count).toFixed(2),
+			target:target,
+			avg:avg
+		}
+	};
+	
 	me.openHistDlg = function(label){
 		me.modalTitle = label;
 		$('#modal1').modal('open');
@@ -52,179 +152,7 @@ function histogramManager(me){
 	me.openNotes = function(){
 		$('#modalNodes').modal('open');
 	};
-    me.stack = [
-		new heapItem('Anima', me.getRandomData(),me.getRandom(),[
-			new heapItem('UniBH', me.getRandomData(),me.getRandom(),[
-				new heapItem('Campus I', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus II', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus III', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus IV', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus V', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus VI', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				])
-			]),
-			new heapItem('São Judas', me.getRandomData(),me.getRandom(),[
-				new heapItem('Campus I', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus II', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus III', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus IV', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus V', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus VI', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				])
-			]),
-			new heapItem('UNA', me.getRandomData(),me.getRandom(),[
-				new heapItem('Campus I', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus II', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus III', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus IV', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus V', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				]),
-				new heapItem('Campus VI', me.getRandomData(),me.getRandom(),[
-					new heapItem('Coordenação I', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação II', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação III', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação IV', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação V', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VI', me.getRandomData(),me.getRandom(),[]),
-					new heapItem('Coordenação VII', me.getRandomData(),me.getRandom(),[])
-				])
-			])
-			
-		])
-	];
+    
 
     
 }

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html  xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" ng-app="mainApp">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br" ng-app="mainApp">
+
 <head>
-	
+
 	<title>Anima</title>
 	<meta charset="utf-8">
 
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-	
-    <!-- Favicons -->
-    <link rel="icon" href="img/favicon-16.png" sizes="16x16">
-    <link rel="icon" href="img/favicon-24.png" sizes="24x24">
+	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<!-- Favicons -->
+	<link rel="icon" href="img/favicon-16.png" sizes="16x16">
+	<link rel="icon" href="img/favicon-24.png" sizes="24x24">
 	<link rel="icon" href="img/favicon-32.png" sizes="32x32">
 	<link rel="icon" href="img/favicon-72.png" sizes="72x72">
 	<link rel="icon" href="img/favicon-96.png" sizes="96x96">
@@ -20,142 +21,272 @@
 	<link rel="icon" href="img/favicon-144.png" sizes="144x144">
 	<link rel="icon" href="img/favicon-160.png" sizes="256x160">
 	<style>
-		.txtRotateh1{
-		font-family: 'Raleway', sans-serif;
-		padding: 1em 2em;
-		font-size: 2rem;
-		background: #222;
-		color: #30ad1b;
-		font-weight: 200;
-		margin: 0.4em 0;
-		position: fixed;
-		bottom: 0px;
-		width: 100%;
-		
-	  }
-	  .pularintro{
-		color:#878788;
-		font-size: 24px;
-		margin-top: 10px;
-		cursor: pointer;
-	  }
+		.txtRotateh1 {
+			font-family: 'Raleway', sans-serif;
+			padding: 1em 2em;
+			font-size: 2rem;
+			background: #222;
+			color: #30ad1b;
+			font-weight: 200;
+			margin: 0.4em 0;
+			position: fixed;
+			bottom: 0px;
+			width: 100%;
+
+		}
+
+		.pularintro {
+			color: #878788;
+			font-size: 24px;
+			margin-top: 10px;
+			cursor: pointer;
+		}
 	</style>
-    <!-- Favicons -->
-	
+	<!-- Favicons -->
+
 </head>
+
 <body class="noselect">
 	<div class="rotate" onclick="removeRotateGif()"></div>
 
-<div ng-controller="ctrl" id="mainCtrl" class="mainContent">
-	<div class="navbar-fixed" ng-init="loadCtrl()">
-		<nav class="nav-extended">
-		 <div class="nav-wrapper container">
-		  
-		  <a data-activates="slide-out" id="mobileMenu" class="button-collapse"><i class="material-icons"  >menu</i></a>
-		  <label class="mainHeader" >Anima.</label> 
-		  <span id="subtitle">NAVI</span>
-		  
-		  <ul id="nav-mobile" class="right hide-on-med-and-down">
-			  <li></li>
-			<!-- <li><a href="#sobre">O que é?</a></li>
-			<li><a href="#comofunciona">Como funciona</a></li> -->
-		  </ul>
-		  <ul class="side-nav" id="slide-out" >
-			<!-- <li><a href="#sobre">O que é?</a></li>
-			<li><a href="#comofunciona">Como funciona</a></li> -->
-		  </ul>
-		 </div>
-		</nav>
-	</div>
-	<div class="navbar-fixed hide-on-med-and-down " style="display:none;" >
-		<nav class="nav-extended sub-menu">
-			<div class="nav-wrapper container">
-			
-			</div>
-		</nav>
-	</div>
-	<div class="container">
-		<div class="row mt20">
-			<div class="col s12 m12 l12 xl12 center"  >
-				<my-histogram ng-repeat="cd in mainObjs"
-					data=cd
-					main="true"
-					top="true"
-					up="goup()"
-					showup="prevParent != null"
-					dlg="openHistDlg(label)"
-				></my-histogram>
+	<div ng-controller="ctrl" id="mainCtrl" class="mainContent">
+		<div class="navbar-fixed" ng-init="loadCtrl()">
+			<nav class="nav-extended">
+				<div class="nav-wrapper container">
+
+					<a data-activates="slide-out" id="mobileMenu" class="button-collapse">
+						<i class="material-icons">menu</i>
+					</a>
+					<label class="mainHeader">&nbsp;</label>
 				
+
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li></li>
+						<li><a >Entenda os indicadores</a></li>
+						<li><a ng-click="changeChart()">Alterar Gráfico</a></li>
+						<li><a ng-click="openChart()">Ver todos</a></li>
+					</ul>
+					<ul class="side-nav" id="slide-out">
+						<!-- <li><a href="#sobre">O que é?</a></li>
+			<li><a href="#comofunciona">Como funciona</a></li> -->
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<div class="navbar-fixed hide-on-med-and-down " style="display:none;">
+			<nav class="nav-extended sub-menu">
+				<div class="nav-wrapper container">
+
+				</div>
+			</nav>
+		</div>
+		<div class="mycontainner">
+			<div class="row mt20">
+				<div class="col s12 m12 l12 xl12 center">
+					<my-histogram ng-repeat="cd in mainObjs" data=cd main="true" top="true" up="goup()" showup="prevParent != null" dlg="openHistDlg(label)"
+					 ml="40"></my-histogram>
+
+				</div>
+			</div>
+			<div class="row" ng-show="mainObj.childs != null && mainObj.childs.length > 0">
+				<div class="col s12 m12 l12 xl12">
+					<ul class="collapsible">
+						<li>
+							<div class="collapsible-header">
+								<i class="material-icons">filter_list</i>Filtro</div>
+							<div class="collapsible-body">
+								<div class="row">
+									<div class="col s12 m6 l3 xl3 hoverable">
+										<h5 class="filterTitle">
+											Qualidade de ensino:
+										</h5>
+										<p class="sliderTitle sliderColor">
+											<em ng-show="filterQualidadeEnsino<100">menor que {{filterQualidadeEnsino}}</em>
+											<em ng-show="filterQualidadeEnsino==100">Todos</em>
+										</p>
+										<div class="histFilter">
+											<ul>
+												<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterQualidadeEnsino, empty:i.v>filterQualidadeEnsino, avg:i.isAvg==true,target:i.isTarget==true}" ng-repeat="i in qualidadeDeEnsinoFilterHist"></li>
+											</ul>
+										</div>
+
+										<p class="range-field sliderP">
+											<input type="range" ng-model="filterQualidadeEnsino" min="0" max="100" />
+										</p>
+										<p>
+											<label class="target">Meta: <span ng-bind="QualidadeEnsinoMetadata.target"></span></label>
+											<label class="target">Abaixo da meta: <span ng-bind="QualidadeEnsinoMetadata.belowTarget|percentage:2"></span></label>
+											<label class="avg">Média: <span ng-bind="QualidadeEnsinoMetadata.avg"></span></label>
+											<label class="avg">Abaixo da média: <span ng-bind="QualidadeEnsinoMetadata.belowAvg|percentage:2"></span></label>
+										</p>
+									</div>
+									<div class="col s12 m6 l3 xl3 hoverable">
+										<h5 class="filterTitle">
+											Qualidade de Serviço:
+										</h5>
+										<p class="sliderTitle sliderColor">
+											<em ng-show="filterQualidadeServico<100">menor que {{filterQualidadeServico}}</em>
+											<em ng-show="filterQualidadeServico==100">Todos</em>
+										</p>
+										<div class="histFilter">
+											<ul>
+												<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterQualidadeServico, empty:i.v>filterQualidadeServico,avg:i.isAvg==true,target:i.isTarget==true}" ng-repeat="i in qualidadeServicoFilterHist"></li>
+											</ul>
+										</div>
+
+										<p class="range-field sliderP">
+											<input type="range" ng-model="filterQualidadeServico" min="0" max="100" />
+										</p>
+										<p>
+											<label class="target">Meta: <span ng-bind="QualidadeServicoMetadata.target"></span></label>
+											<label class="target">Abaixo da meta: <span ng-bind="QualidadeServicoMetadata.belowTarget|percentage:2"></span></label>
+											<label class="avg">Média: <span ng-bind="QualidadeServicoMetadata.avg"></span></label>
+											<label class="avg">Abaixo da média: <span ng-bind="QualidadeServicoMetadata.belowAvg|percentage:2"></span></label>
+										</p>
+									</div>
+									<div class="col s12 m6 l3 xl3 hoverable">
+										<h5 class="filterTitle">
+											ICC:
+										</h5>
+										<p class="sliderTitle sliderColor">
+											<em ng-show="filterICC<100">menor que {{filterICC}}</em>
+											<em ng-show="filterICC==100">Todos</em>
+										</p>
+										<div class="histFilter">
+											<ul>
+												<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterICC, empty:i.v>filterICC,avg:i.isAvg==true,target:i.isTarget==true}" ng-repeat="i in qualidadeDeEnsinoFilterHist"></li>
+											</ul>
+										</div>
+
+										<p class="range-field sliderP">
+											<input type="range" ng-model="filterICC" min="0" max="100" />
+										</p>
+										<p>
+											<label class="target">Meta: <span ng-bind="ICCMetadata.target"></span></label>
+											<label class="target">Abaixo da meta: <span ng-bind="ICCMetadata.belowTarget|percentage:2"></span></label>
+											<label class="avg">Média: <span ng-bind="ICCMetadata.avg"></span></label>
+											<label class="avg">Abaixo da média: <span ng-bind="ICCMetadata.belowAvg|percentage:2"></span></label>
+										</p>
+									</div>
+									<div class="col s12 m6 l3 xl3 filterBlock hoverable">
+										<h5 class="filterTitle">
+											Carreira & Empregabilidade:
+										</h5>
+										<p class="sliderTitle sliderColor">
+											<em ng-show="filterCarreiraEmpregabilidade<100">menor que {{filterCarreiraEmpregabilidade}}</em>
+											<em ng-show="filterCarreiraEmpregabilidade==100"> Todos</em>
+										</p>
+										<div class="histFilter">
+											<ul>
+												<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterCarreiraEmpregabilidade, empty:i.v>filterCarreiraEmpregabilidade,avg:i.isAvg==true,target:i.isTarget==true}"
+												 ng-repeat="i in carreiraEmpregabilidadeHist"></li>
+											</ul>
+										</div>
+
+										<p class="range-field sliderP">
+											<input type="range" ng-model="filterCarreiraEmpregabilidade" min="0" max="100" />
+										</p>
+										<p>
+											<label class="target">Meta: <span ng-bind="carreiraEmpregabilidadeMetadata.target"></span></label>
+											<label class="target">Abaixo da meta: <span ng-bind="carreiraEmpregabilidadeMetadata.belowTarget|percentage:2"></span></label>
+											<label class="avg">Média: <span ng-bind="carreiraEmpregabilidadeMetadata.avg"></span></label>
+											<label class="avg">Abaixo da média: <span ng-bind="carreiraEmpregabilidadeMetadata.belowAvg|percentage:2"></span></label>
+										</p>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row chartMinis">
+				<div class="col s12 m12 l6 xl6">
+					<h5 class="hBest" ng-show="mainObj.childs != null && mainObj.childs.length > 0">Destaques</h5>
+					<my-histogram ng-repeat="cd in getList(true)" data="cd" index="$index" top="false" main="true" fn="inside(index)" dlg="openHistDlg(label)"
+					 ml="0"></my-histogram>
+				</div>
+				<div class="col s12 m12 l6 xl6">
+					<h5 ng-show="mainObj.childs != null && mainObj.childs.length > 0" class="hWorst">Atenção</h5>
+					<my-histogram ng-repeat="cd in getList(false)" data="cd" main="false" top="false" index="$index" fn="inside(index)"
+					 dlg="openHistDlg(label)" ml="0"></my-histogram>
+				</div>
 			</div>
 		</div>
-		<div class="row chartMinis">
-			<div class="col s12 m12 " ng-class="{'l6 xl6':mainObj.childs.length <=3, 'l6 xl6':mainObj.childs.length > 3}">
-				<h5 class="hBest" ng-hide="prevParent==null">Destaques</h5>
-				<my-histogram ng-repeat="cd in mainObj.childs.top(3)"
-					data="cd"
-					index="$index"
-					top="false"
-					main="true"
-					fn="inside(index)"
-					dlg="openHistDlg(label)"
-				></my-histogram>
-			</div>
-			<div class="col s12 m12 l6 xl6" ng-show="mainObj.childs.length > 3">
-				<h5 class="hWorst">Atenção</h5>
-				<my-histogram ng-repeat="cd in mainObj.childs.bottom(3)"
-					data="cd"
-					main="false"
-					top="false"
-					index="$index"
-					fn="inside(index)"
-					dlg="openHistDlg(label)"
-				></my-histogram>
+
+
+
+		<!-- <div class="fixed-action-btn">
+			<a class="btn-floating btn-large ">
+				<i class="large material-icons">mode_edit</i>
+			</a>
+			<ul>
+				<li>
+					<a ng-click="openNotes()" class="btn-floating yellow darken-1">
+						<i class="material-icons">format_quote</i>
+					</a>
+				</li>
+
+
+			</ul>
+		</div> -->
+
+		<div id="modalNodes" class="modal">
+			<i class="small material-icons closeFixedIcon roundIcon" onclick="closeChartDialog(this)" title="Fechar">cancel</i>
+			<div class="modal-content">
+				<div class="ta">
+					<textarea ng-model="txtNote" placeholder="deixa aqui seu comentário!"></textarea>
+				</div>
+				<div class="ft">
+					<a class="waves-effect waves-light btn bgc">
+						<i class="material-icons left">save</i>salvar</a>
+				</div>
+
 			</div>
 		</div>
-	</div>
-	
+		<div id="modal1" class="modal wideModal">
+			<i class="small material-icons closeFixedIcon roundIcon" onclick="closeChartDialog(this)" title="Fechar">cancel</i>
+			<div class="modal-content">
+				<h5 class="modalTitle">{{modalTitle}}</h5>
+				<div class="row align-wrapper">
+					<div class="input-field col col s6 m6 l4 xl3">
+						<select  ng-change="changeScatter()" ng-options="item as item.label for item in chartXY track by item.id " ng-model="chartY"></select>
+						<label>Vertical:</label>
+					</div>
+					<div class="input-field col s6 m6 l4 xl3">
+						<select   ng-change="changeScatter()" ng-options="item as item.label for item in chartXY track by item.id " ng-model="chartX"></select>
+						<label>Horizontal:</label>
+					</div>
+					
+					<div class="col s6 m2 l2 xl1 align-wrapper">
+						<input type="checkbox" id="target" ng-change="updateScatterChart()" class="filled-in" ng-checked="targetOn" ng-model="targetOn"/>
+						<label  for="target">
+							<span>Meta</span>
+						</label>
+					</div>
+					<div class="col s6 m2 l2 xl1 align-wrapper">
+						<input type="checkbox" ng-change="updateScatterChart()" id="avg" class="filled-in" ng-model="avgOn"/>
+						<label  for="avg">
+							<span>Média</span>
+						</label>
+					</div>
 
+				</div>
+				<div id="chart_scatter">
 
-	<div class="fixed-action-btn">
-		<a class="btn-floating btn-large ">
-		  <i class="large material-icons">mode_edit</i>
-		</a>
-		<ul>
-		  <li><a ng-click="openNotes()" class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-		  
-		  
-		</ul>
-	  </div>
-	
-	  <div id="modalNodes" class="modal"  >
-		<i class="small material-icons closeFixedIcon roundIcon" onclick="closeChartDialog(this)"  title="Fechar" >cancel</i> 
-		<div class="modal-content">
-			<div class="ta">
-				<textarea ng-model="txtNote" placeholder="deixa aqui seu comentário!"></textarea>	
+				</div>
 			</div>
-			<div class="ft">
-				<a class="waves-effect waves-light btn bgc"><i class="material-icons left">save</i>salvar</a>
-			</div>
-			
-		</div>	
-	</div>
-	<div id="modal1" class="modal"  >
-		<i class="small material-icons closeFixedIcon roundIcon" onclick="closeChartDialog(this)"  title="Fechar" >cancel</i> 
-		<div class="modal-content">
-			<h5 class="modalTitle">{{modalTitle}}</h5>
-			<div id="modalHistogram"></div>
-		</div>	
-	</div>
+		</div>
 
-	
-	
-	
-</div>
-<footer class="row">
-	<div class="container">
-		
+
+
+
 	</div>
-</footer>
+	<footer class="row">
+		<div class="container">
+
+		</div>
+	</footer>
 
 
 
@@ -165,14 +296,14 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 	<script src="js/materialize.js"></script>
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-	<script src="js/util.js"  charset="utf-8" ></script>
-	<script src="js/dataManager.js"  charset="utf-8" ></script>
-	<script src="js/histogram.js"  charset="utf-8" ></script>
-	<script src="js/main.js"  charset="utf-8" ></script>
+	<script src="js/util.js" charset="utf-8"></script>
+	<script src="js/dataManager.js" charset="utf-8"></script>
+	<script src="js/histogram.js" charset="utf-8"></script>
+	<script src="js/main.js" charset="utf-8"></script>
 	<script src="js/init.js"></script>
 	<!-- <script src="json/last24.js"></script>
 	<script src="json/bigList.js"></script> -->
-	   
+
 </body>
 
 </html>

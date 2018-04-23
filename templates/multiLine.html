@@ -1,0 +1,15 @@
+<div class="multiLine" ng-init="data.showSubMenu = false">
+        <div class="c1 f1 m1" style="padding-left:{{ml}}px;">
+            <i ng-show="data.showSubMenu == false" ng-click="data.showSubMenu = !data.showSubMenu" class="tiny material-icons">keyboard_arrow_right</i>
+            <i ng-show="data.showSubMenu == true" ng-click="data.showSubMenu = !data.showSubMenu" class="tiny material-icons">keyboard_arrow_down</i>
+            {{data.propriedade}}
+        </div>
+        <div class="c2">
+            <progress style="margin-left:{{(100-level)}}%;width:{{level}}%"  value="{{data.valor}}" max="100"></progress>
+        </div>
+        <div class="c3">{{data.valor}}</div>
+        <div ng-show="data.showSubMenu==true" class="wrapper" ng-repeat="item in data.child track by $index">
+           <single-line ml="ml + 40" level="level-10" data="item" ng-if="item.child == null"></single-line>
+           <multi-line ml="ml + 40" level="level-10" data="item" ng-if="item.child != null"></single-line> 
+        </div>
+</div>

@@ -1,63 +1,26 @@
-<div class="card" ng-init=loadCtrl()>
-    <h5>{{data.name}}</h5>
+<div class="card hoverable" ng-class="{bigCard:top==true,smallCard:top==false }"  ng-init=loadCtrl()>
+    <h5 ng-click="clickCanvas()">{{data.name}}</h5>
         <div class="card-image waves-effect waves-block waves-light tac">
-            <span class="card-title grey-text text-darken-4" style="margin:0px 24px;"  ng-show="showup">
-                <i class="material-icons left" title="Voltar" style="font-size:2.5rem;" ng-click="goup()">arrow_upward</i>
-            </span>
-            <div class="chart-container">
-                <canvas ng-click="clickCanvas()"></canvas>
-            </div>
-            <em class="totalValue">{{data.total}}</em>
-            <progress value="{{data.total}}" max="100"></progress>
+            
+              <div class="wrapper hoverable" ng-repeat="item in data.DPQ.child track by $index">
+                 <single-line ml="ml" level="100" data="item" ng-if="item.child == null"></single-line>
+                 <multi-line ml="ml" level="100" data="item" ng-if="item.child != null"></multi-line>
+              </div>
+              <div>
+                <em class="totalValue">{{data.DPQ.valor}}</em>
+                <i ng-show="showup" class="material-icons openner" title="Voltar"  ng-click="goup()">arrow_upward</i>
+                <progress style="width: 90%;margin: auto;" value="{{data.DPQ.valor}}" max="100"></progress>
+                <i class="activator material-icons openner">dehaze</i>
+             </div>
+            
         </div>
-        <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4">
-              <i class="material-icons right">more_vert</i>
-           </span>
-           
-          <p><a ></a></p>
-        </div>
+        
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">{{data.name}}<i class="material-icons right">close</i></span>
-          <p>Veja tabela completa abaixo:</p>
-          <table>
-              <thead>
-                  <tr>
-                      <th style="width:20%"></th>
-                      <th style="width:70%"></th>
-                      <th style="width:10%"></th>
-                  </tr>
-              </thead>
-              <tr ng-repeat="item in data.values.take(4) track by $index">
-                  <td class="f1 m1" ng-click="$parent.openHist($index)">{{$parent.labels[$index]}}</td>
-                  <td><progress  value="{{item}}" max="100"></progress></td>
-                  <td>{{item}}</td>
-              </tr>
-              
-              <tr class="narrow">
-                <td class="f1"><i ng-click="showAvaInterna = !showAvaInterna" class="tiny material-icons" >keyboard_arrow_right</i>{{labels[4]}}</td>
-                <td><progress  value="{{data.values[4]}}" max="100"></progress></td>
-                <td>{{data.values[4]}}</td>
-              </tr>
-              <tr ng-show="showAvaInterna==true" ng-repeat="pi in data.avaliacaoInterna track by $index" class="inner scale-transition">
-                <td class="c1"><i class="tiny material-icons" >keyboard_arrow_right</i>{{$parent.labels_provaInterna[$index]}}</td>
-                <td class="c2"><progress value="{{pi}}" max="100"></progress></td>
-                <td class="c3">{{pi}}</td>
-              </tr>
-
-              <tr class="narrow">
-                <td class="f1"><i ng-click="showAvaExterna = !showAvaExterna" class="tiny material-icons" >keyboard_arrow_right</i>{{labels[5]}}</td>
-                <td><progress  value="{{data.values[5]}}" max="100"></progress></td>
-                <td>{{data.values[5]}}</td>
-              </tr>
-              <tr ng-show="showAvaExterna==true" ng-repeat="pi in data.avaliacaoExterna track by $index" class="inner scale-transition">
-                <td class="c1"><i class="tiny material-icons" >keyboard_arrow_right</i>{{$parent.labels_provaExterna[$index]}}</td>
-                <td class="c2"><progress value="{{pi}}" max="100"></progress></td>
-                <td class="c3">{{pi}}</td>
-              </tr>
-
-          </table>  
-         
+            
+          <div class="chart-container" style="height: 100%;">
+            <canvas ></canvas>
+          </div>
             
         </div>
         
