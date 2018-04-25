@@ -2902,6 +2902,7 @@ ul.staggered-list li {
   .show-on-small {
     display: block !important;
   }
+ 
 }
 
 @media only screen and (min-width: 601px) {
@@ -2913,6 +2914,12 @@ ul.staggered-list li {
 @media only screen and (max-width: 992px) {
   .show-on-medium-and-down {
     display: block !important;
+  }
+  .card h5.ng-binding{
+    font-size: 3rem;
+  }
+  .collapsible-header{
+    font-size: 2rem;
   }
 }
 

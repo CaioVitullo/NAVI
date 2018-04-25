@@ -202,12 +202,12 @@
 
 			<div class="row chartMinis">
 				<div class="col s12 m12 l6 xl6">
-					<h5 class="hBest" ng-show="mainObj.childs != null && mainObj.childs.length > 0">Destaques</h5>
+					<h5 class="hBest" ng-show="mainObj.childs != null && mainObj.childs.length > 0 && isMobile == false">Destaques</h5>
 					<my-histogram ng-repeat="cd in getList(true)" data="cd" index="$index" top="false" main="true" fn="inside(index)" dlg="openHistDlg(label)"
 					 ml="0"></my-histogram>
 				</div>
 				<div class="col s12 m12 l6 xl6">
-					<h5 ng-show="mainObj.childs != null && mainObj.childs.length > 0" class="hWorst">Atenção</h5>
+					<h5 ng-show="mainObj.childs != null && mainObj.childs.length > 0 && isMobile == false" class="hWorst">Atenção</h5>
 					<my-histogram ng-repeat="cd in getList(false)" data="cd" main="false" top="false" index="$index" fn="inside(index)"
 					 dlg="openHistDlg(label)" ml="0"></my-histogram>
 				</div>

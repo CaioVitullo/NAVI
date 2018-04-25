@@ -1198,6 +1198,7 @@ progress::-webkit-progress-value {
 }
 
 
+
 .card h5{
 	text-align: center;
     padding-left: 20px;
@@ -1210,13 +1211,13 @@ progress::-webkit-progress-value {
 }
 .card{
 	padding-bottom: 10px;
-	max-height: 80vh;
+	/* max-height: 80vh; */
 }
 .bigCard{
-	min-height: 40vh;
+	/* min-height: 20vh; */
 }
 .smallCard{
-	min-height: 25vh;
+	/* min-height: 25vh; */
 }
 .openner{
 	margin-top: -6px;
