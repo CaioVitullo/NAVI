@@ -1060,29 +1060,35 @@ div [dir="ltr"] text {
 progress{
 	
 	-webkit-appearance: none;
+	-moz-appearance: none;
    appearance: none;
 }
-progress::-webkit-progress-bar {
+progressA{
 	background-color: #eee;
 	border-radius: 2px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
-  }
-
-  progress::-webkit-progress-value {
-	 /* background-image:
-		 -webkit-linear-gradient(0deg, 
-								 transparent 33%, rgba(0, 0, 0, .1) 33%, 
-								 rgba(0,0, 0, .1) 66%, transparent 66%),
-		 -webkit-linear-gradient(top, 
-								 rgba(255, 255, 255, .25), 
-								 rgba(0, 0, 0, .25)),
-		 -webkit-linear-gradient(left,#512d79, #6ca3d2); */
-		background: url(bkg.png) center top repeat-y;
-	  border-radius: 2px; 
-	  /* background-size: 350px 320px, 100% 100%, 100% 100%;  */
-	 
+}
+progress::-webkit-progress-bar{
+	background-color: #eee;
+	border-radius: 2px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+::-moz-progress-bar{
+	background-color: #512d79;
+	border-radius: 2px;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+progress::-webkit-progress-value {
+	background: url(bkg.png) center top repeat-y;
+	border-radius: 2px; 
+	  /* background-size: 350px 320px, 100% 100%, 100% 100%;  */ 
   }
  
+::-webkit-progress-value {
+	background-color: orange;
+	border-radius: 2px; 
+	  /* background-size: 350px 320px, 100% 100%, 100% 100%;  */ 
+  }
 
   .totalValue{
 	display: block;

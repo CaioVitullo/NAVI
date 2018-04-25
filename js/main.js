@@ -18,6 +18,9 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 			me.mainObj = me.defaultLists[0];
 			me.mainObjs = [me.defaultLists[0]];
 			me.updateFilter(me.mainObj.childs);
+			$timeout(function(){
+				skipIntroduction();
+			},500);
 		});
 		resizeHorizontalScroll();
 

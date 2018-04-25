@@ -282,13 +282,33 @@
 
 
 	</div>
+	<div id="preloading" onclick="skipIntroduction()">
+	
+
+	<a class="pularintro" id="linkBoraProSite" style="display:none;">Pular introdução</a>
+	<a class="pularintro" id="loadingFP" >Caregando dados...</a>
+	
+	</div>
+	
+	
+
 	<footer class="row">
 		<div class="container">
 
 		</div>
 	</footer>
 
-
+	<script>
+	
+		function skipIntroduction(){
+			window.introSkipped = true;
+			
+			$('#preloading').hide();
+				
+		}
+		
+	
+	</script>
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
