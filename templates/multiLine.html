@@ -5,6 +5,9 @@
             {{data.propriedade}}
         </div>
         <div class="c2">
+            <span class="meta" title="{{'meta ' + meta}}">
+                <i ng-class="{metaOk:data.valor >= meta, metaNao:data.valor < meta}" class="material-icons" >arrow_drop_down</i>
+            </span>
             <progress style="margin-left:{{(100-level)}}%;width:{{level}}%"  value="{{data.valor}}" max="100"></progress>
         </div>
         <div class="c3">{{data.valor}}</div>

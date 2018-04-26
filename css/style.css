@@ -4,6 +4,7 @@ body{
 }
 .mainContent{
 	max-width: 2000px;
+	min-height: 100vh;
 	margin: auto;
 }
 
@@ -1155,7 +1156,7 @@ progress::-webkit-progress-value {
   .wrapper{
 		display: inline-block;
 		width: 100%;
-		padding-top: 3px;
+		padding-top: 6px;
   }
   .singleLine{
 	  width: 100%;
@@ -1165,6 +1166,7 @@ progress::-webkit-progress-value {
 	  width: 30%;
   }
   .c2{
+	  position: relative;
 	  width: 60%;
   }
   .c3{
@@ -1181,8 +1183,25 @@ progress::-webkit-progress-value {
 	  text-align: right;
 	  padding-right: 10px;
   }
-  
+  .c1:hover .c1 ~ .c3{
+	  color: red;
+  }
+  .c2 .meta{
+	height: 27px;
+    
+    position: absolute;
+    z-index: 999;
+    top: -15px;
+	left: 0;
+	margin-left: 70%;
+}
 
+.metaOk{
+	color: #6ca3d2;
+}
+.metaNao{
+	color: #512d79;
+}
 .multiLine .multiLine .c1, .multiLine .singleLine .c1,.singleLine .multiLine .c1, .singleLine .singleLine .c1{
     font-size: 12px; 
 }
@@ -1273,4 +1292,7 @@ label.avg{
 .mycontainner{
 	width: 95%;
 	margin: auto;
+}
+.arrumaML{
+	margin-left: -20px;
 }

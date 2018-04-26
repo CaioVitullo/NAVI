@@ -42,8 +42,8 @@ function histogramManager(me){
 		var parent = me.getItemByID(parentID);
 		me.mainObj = parent;
         me.mainObjs=[me.mainObj];
-        
-        
+		
+	
     }
     me.prevParent = null;
     
@@ -59,6 +59,11 @@ function histogramManager(me){
 		me.updateFilter(me.mainObj.childs);
         me.mainObjs=[me.mainObj];    
 		$("html, body").animate({ scrollTop: 0 }, "slow");
+		
+		if(me.radarIsOn==true)
+			window.setTimeout(function(){
+				me.changeChart();
+			},50)
 	};
 	me.qualidadeDeEnsinoFilterHist=[];
 	

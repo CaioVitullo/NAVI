@@ -325,6 +325,20 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 		};
 		
 		var d = [];
+		
+		var ap=null;
+		if(me.avgOn)
+			ap=[0,null, null, calcYAvg(me.mainObj.childs)];
+		if(me.targetOn){
+			if(ap != null){
+				ap.push(me.chartY.target)
+			}else{
+				ap=[0,null, null, me.chartY.target];
+			}
+		}
+		if(ap != null)
+			d.push(ap);
+			
 		for(var i=0; i<me.mainObj.childs.length;i++){
 			var item = me.mainObj.childs[i];
 			var k = [
@@ -340,6 +354,19 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 			
 			d.push(k);
 		}
+		var af=null;
+		if(me.avgOn)
+			af=[100,null, null, calcYAvg(me.mainObj.childs)];
+		if(me.targetOn){
+			if(af != null){
+				af.push(me.chartY.target)
+			}else{
+				af=[100,null, null, me.chartY.target];
+			}
+		}
+		if(af != null)
+			d.push(af);
+
 		data.addRows(d);
 
 		var options = me.gerDefaultChartOptions();
@@ -398,9 +425,10 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 
 		me.mobileSelectedPage = page;
 	};
-
+	me.radarIsOn = false;
 	me.changeChart = function(){
-		if($("i.right:contains('close')").is(':visible') == true){
+		if($("div.chart-container").is(':visible') == true){
+			me.radarIsOn = false;		//i.right:contains('close')
 			$("i.right:contains('close')").click()
 			$('.card').each(function(index, item){
 				var hbefore = $(this).attr('hBefore');
@@ -408,11 +436,12 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 			});
 		}else{
 			$('.activator').click();
+			me.radarIsOn = true;
 			window.setTimeout(function(){
 				$('.card').each(function(index, item){
 					$(this).attr('hBefore', $(this).height())
 					var canvas = $(item).find('canvas');
-					$(item).height($(canvas).height() * 1.8)
+					$(item).height($(canvas).height() * 2.2)
 				});
 			}, 100);
 			
@@ -500,7 +529,7 @@ mainApp.directive('singleLine', function () {
 		restrict: 'E',
 		replace: true,
 		templateUrl: 'templates/singleLine.html',
-		scope: { data: '=', level: '=', ml: '=' }
+		scope: { data: '=', level: '=', ml: '=', meta:'=' }
 	};
 });
 mainApp.directive('multiLine', function () {
@@ -508,7 +537,7 @@ mainApp.directive('multiLine', function () {
 		restrict: 'E',
 		replace: true,
 		templateUrl: 'templates/multiLine.html',
-		scope: { data: '=', level: '=', ml: '=' }
+		scope: { data: '=', level: '=', ml: '=', meta:'=' }
 	};
 });
 mainApp.directive('myHistogram', function () {
@@ -524,7 +553,8 @@ mainApp.directive('myHistogram', function () {
 			up: '&',
 			dlg: '&',
 			ml: '=',
-			mobile:'='
+			mobile:'=',
+			meta:'='
 		},
 		replace: true,
 		templateUrl: 'templates/histogram.html',
