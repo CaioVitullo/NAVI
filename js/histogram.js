@@ -11,18 +11,47 @@ function histogramManager(me){
 	};
 	me.getLabels = function(){
 		return ["Pesquisa de satisfação","NPS","Carreira e Empregabilidade","ICC","Avaliação interna","Avaliação externa"];
-    };
-    me.goup = function(){
-        me.mainObj = me.prevParent;
+	};
+	me.turnObjInLine = function(){
+		var a =[];
+		var item = me.defaultLists[0];
+		a.push(item);
+		while(a.any(function(i){return i.hasOwnProperty('visited')==false;})){
+			var n = a.length;
+			for(var i=0;i<n;i++){
+				
+				if(a[i].hasOwnProperty('visited')==false && a[i].childs != null && a[i].childs.length > 0){
+					a.addRange(a[i].childs);
+					a[i].visited=true;
+				}else{
+					a[i].visited=true;
+				}
+			}
+		}
+		return a;
+	}
+	me.getItemByID = function(parentID){
+		if(me.objInLine == null)
+			me.objInLine = me.turnObjInLine();
+		
+		return me.objInLine.first({ID:parentID});
+		
+	};
+	me.objInLine = null;
+    me.goup = function(parentID){
+		var parent = me.getItemByID(parentID);
+		me.mainObj = parent;
         me.mainObjs=[me.mainObj];
-        if(me.mainObj.name=='Anima')
-            me.prevParent=null;
+        
         
     }
     me.prevParent = null;
     
     me.inside = function(index){
-        me.prevParent = me.mainObj;
+		var clicked = me.mainObj.childs.first({ID:index});
+		if(clicked == null || clicked.childs==null || clicked.childs.length==0)
+			return;
+		
         me.mainObj =me.mainObj.childs.first({ID:index});
         me.mainObj.childs = me.mainObj.childs.sort(function(a,b){
             return b.DPQ.valor - a.DPQ.valor;

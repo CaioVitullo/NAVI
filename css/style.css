@@ -1197,13 +1197,16 @@ progress::-webkit-progress-value {
 	color: #908686;
 }
 
-
+.btop{
+	border-top: solid 1px silver;
+}
 
 .card h5{
 	text-align: center;
     padding-left: 20px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	overflow-y: hidden;
     padding-top: 8px;
 	font-size: 2rem;
 	z-index: 99999;

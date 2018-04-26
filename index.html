@@ -58,17 +58,27 @@
 						<i class="material-icons">menu</i>
 					</a>
 					<label class="mainHeader">&nbsp;</label>
-				
+
 
 					<ul id="nav-mobile" class="right hide-on-med-and-down">
 						<li></li>
-						<li><a >Entenda os indicadores</a></li>
-						<li><a ng-click="changeChart()">Gráfico Radar</a></li>
-						<li><a ng-click="openChart()">Gráfico pontos</a></li>
+						<li>
+							<a>Entenda os indicadores</a>
+						</li>
+						<li>
+							<a ng-click="changeChart()">Gráfico Radar</a>
+						</li>
+						<li>
+							<a ng-click="openChart()">Gráfico pontos</a>
+						</li>
 					</ul>
 					<ul class="side-nav" id="slide-out">
-						<li><a >Entenda os indicadores</a></li>
-						<li><a ng-click="openChart()">Gráfico pontos</a></li>
+						<li>
+							<a>Entenda os indicadores</a>
+						</li>
+						<li>
+							<a ng-click="openChart()">Gráfico pontos</a>
+						</li>
 					</ul>
 				</div>
 			</nav>
@@ -83,8 +93,16 @@
 		<div class="mycontainner">
 			<div class="row mt20">
 				<div class="col s12 m12 l12 xl12 center">
-					<my-histogram ng-repeat="cd in mainObjs" data=cd main="true" top="true" up="goup()" showup="prevParent != null" dlg="openHistDlg(label)"
-					 ml="40"></my-histogram>
+					<my-histogram 
+						ng-repeat="cd in mainObjs" 
+						mobile="isMobile"
+						data="cd" 
+						main="true" 
+						top="true" 
+						up="goup(parentID)" 
+						showup="prevParent != null" 
+						dlg="openHistDlg(label)"
+					 ml="getML()"></my-histogram>
 
 				</div>
 			</div>
@@ -95,103 +113,146 @@
 							<div class="collapsible-header">
 								<i class="material-icons">filter_list</i>Filtro</div>
 							<div class="collapsible-body">
-								<div class="row">
-									<div class="col s12 m6 l3 xl3 hoverable">
-										<h5 class="filterTitle">
-											Qualidade de ensino:
-										</h5>
-										<p class="sliderTitle sliderColor">
-											<em ng-show="filterQualidadeEnsino<100">menor que {{filterQualidadeEnsino}}</em>
-											<em ng-show="filterQualidadeEnsino==100">Todos</em>
-										</p>
-										<div class="histFilter">
-											<ul>
-												<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterQualidadeEnsino, empty:i.v>filterQualidadeEnsino, avg:i.isAvg==true,target:i.isTarget==true}" ng-repeat="i in qualidadeDeEnsinoFilterHist"></li>
-											</ul>
-										</div>
+								<div ng-class="{row:isMobile==false}">
+									<div ng-class="{row:isMobile, btop:isMobile}">
+										<div class="col s12 m6 l3 xl3 hoverable">
+											<h5 class="filterTitle">
+												Qualidade de ensino:
+											</h5>
+											<p class="sliderTitle sliderColor">
+												<em ng-show="filterQualidadeEnsino<100">menor que {{filterQualidadeEnsino}}</em>
+												<em ng-show="filterQualidadeEnsino==100">Todos</em>
+											</p>
+											<div class="histFilter">
+												<ul>
+													<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterQualidadeEnsino, empty:i.v>filterQualidadeEnsino, avg:i.isAvg==true,target:i.isTarget==true}"
+													 ng-repeat="i in qualidadeDeEnsinoFilterHist"></li>
+												</ul>
+											</div>
 
-										<p class="range-field sliderP">
-											<input type="range" ng-model="filterQualidadeEnsino" min="0" max="100" />
-										</p>
-										<p>
-											<label class="target">Meta: <span ng-bind="QualidadeEnsinoMetadata.target"></span></label>
-											<label class="target">Abaixo da meta: <span ng-bind="QualidadeEnsinoMetadata.belowTarget|percentage:2"></span></label>
-											<label class="avg">Média: <span ng-bind="QualidadeEnsinoMetadata.avg"></span></label>
-											<label class="avg">Abaixo da média: <span ng-bind="QualidadeEnsinoMetadata.belowAvg|percentage:2"></span></label>
-										</p>
+											<p class="range-field sliderP">
+												<input type="range" ng-model="filterQualidadeEnsino" min="0" max="100" />
+											</p>
+											<p>
+												<label class="target">Meta:
+													<span ng-bind="QualidadeEnsinoMetadata.target"></span>
+												</label>
+												<label class="target">Abaixo da meta:
+													<span ng-bind="QualidadeEnsinoMetadata.belowTarget|percentage:2"></span>
+												</label>
+												<label class="avg">Média:
+													<span ng-bind="QualidadeEnsinoMetadata.avg"></span>
+												</label>
+												<label class="avg">Abaixo da média:
+													<span ng-bind="QualidadeEnsinoMetadata.belowAvg|percentage:2"></span>
+												</label>
+											</p>
+										</div>
 									</div>
-									<div class="col s12 m6 l3 xl3 hoverable">
-										<h5 class="filterTitle">
-											Qualidade de Serviço:
-										</h5>
-										<p class="sliderTitle sliderColor">
-											<em ng-show="filterQualidadeServico<100">menor que {{filterQualidadeServico}}</em>
-											<em ng-show="filterQualidadeServico==100">Todos</em>
-										</p>
-										<div class="histFilter">
-											<ul>
-												<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterQualidadeServico, empty:i.v>filterQualidadeServico,avg:i.isAvg==true,target:i.isTarget==true}" ng-repeat="i in qualidadeServicoFilterHist"></li>
-											</ul>
-										</div>
+									<div ng-class="{row:isMobile, btop:isMobile}">
+										<div class="col s12 m6 l3 xl3 hoverable">
+											<h5 class="filterTitle">
+												Qualidade de Serviço:
+											</h5>
+											<p class="sliderTitle sliderColor">
+												<em ng-show="filterQualidadeServico<100">menor que {{filterQualidadeServico}}</em>
+												<em ng-show="filterQualidadeServico==100">Todos</em>
+											</p>
+											<div class="histFilter">
+												<ul>
+													<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterQualidadeServico, empty:i.v>filterQualidadeServico,avg:i.isAvg==true,target:i.isTarget==true}"
+													 ng-repeat="i in qualidadeServicoFilterHist"></li>
+												</ul>
+											</div>
 
-										<p class="range-field sliderP">
-											<input type="range" ng-model="filterQualidadeServico" min="0" max="100" />
-										</p>
-										<p>
-											<label class="target">Meta: <span ng-bind="QualidadeServicoMetadata.target"></span></label>
-											<label class="target">Abaixo da meta: <span ng-bind="QualidadeServicoMetadata.belowTarget|percentage:2"></span></label>
-											<label class="avg">Média: <span ng-bind="QualidadeServicoMetadata.avg"></span></label>
-											<label class="avg">Abaixo da média: <span ng-bind="QualidadeServicoMetadata.belowAvg|percentage:2"></span></label>
-										</p>
+											<p class="range-field sliderP">
+												<input type="range" ng-model="filterQualidadeServico" min="0" max="100" />
+											</p>
+											<p>
+												<label class="target">Meta:
+													<span ng-bind="QualidadeServicoMetadata.target"></span>
+												</label>
+												<label class="target">Abaixo da meta:
+													<span ng-bind="QualidadeServicoMetadata.belowTarget|percentage:2"></span>
+												</label>
+												<label class="avg">Média:
+													<span ng-bind="QualidadeServicoMetadata.avg"></span>
+												</label>
+												<label class="avg">Abaixo da média:
+													<span ng-bind="QualidadeServicoMetadata.belowAvg|percentage:2"></span>
+												</label>
+											</p>
+										</div>
 									</div>
-									<div class="col s12 m6 l3 xl3 hoverable">
-										<h5 class="filterTitle">
-											ICC:
-										</h5>
-										<p class="sliderTitle sliderColor">
-											<em ng-show="filterICC<100">menor que {{filterICC}}</em>
-											<em ng-show="filterICC==100">Todos</em>
-										</p>
-										<div class="histFilter">
-											<ul>
-												<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterICC, empty:i.v>filterICC,avg:i.isAvg==true,target:i.isTarget==true}" ng-repeat="i in qualidadeDeEnsinoFilterHist"></li>
-											</ul>
-										</div>
+									<div ng-class="{row:isMobile, btop:isMobile}">
+										<div class="col s12 m6 l3 xl3 hoverable">
+											<h5 class="filterTitle">
+												ICC:
+											</h5>
+											<p class="sliderTitle sliderColor">
+												<em ng-show="filterICC<100">menor que {{filterICC}}</em>
+												<em ng-show="filterICC==100">Todos</em>
+											</p>
+											<div class="histFilter">
+												<ul>
+													<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterICC, empty:i.v>filterICC,avg:i.isAvg==true,target:i.isTarget==true}"
+													 ng-repeat="i in qualidadeDeEnsinoFilterHist"></li>
+												</ul>
+											</div>
 
-										<p class="range-field sliderP">
-											<input type="range" ng-model="filterICC" min="0" max="100" />
-										</p>
-										<p>
-											<label class="target">Meta: <span ng-bind="ICCMetadata.target"></span></label>
-											<label class="target">Abaixo da meta: <span ng-bind="ICCMetadata.belowTarget|percentage:2"></span></label>
-											<label class="avg">Média: <span ng-bind="ICCMetadata.avg"></span></label>
-											<label class="avg">Abaixo da média: <span ng-bind="ICCMetadata.belowAvg|percentage:2"></span></label>
-										</p>
+											<p class="range-field sliderP">
+												<input type="range" ng-model="filterICC" min="0" max="100" />
+											</p>
+											<p>
+												<label class="target">Meta:
+													<span ng-bind="ICCMetadata.target"></span>
+												</label>
+												<label class="target">Abaixo da meta:
+													<span ng-bind="ICCMetadata.belowTarget|percentage:2"></span>
+												</label>
+												<label class="avg">Média:
+													<span ng-bind="ICCMetadata.avg"></span>
+												</label>
+												<label class="avg">Abaixo da média:
+													<span ng-bind="ICCMetadata.belowAvg|percentage:2"></span>
+												</label>
+											</p>
+										</div>
 									</div>
-									<div class="col s12 m6 l3 xl3 filterBlock hoverable">
-										<h5 class="filterTitle">
-											Carreira & Empregabilidade:
-										</h5>
-										<p class="sliderTitle sliderColor">
-											<em ng-show="filterCarreiraEmpregabilidade<100">menor que {{filterCarreiraEmpregabilidade}}</em>
-											<em ng-show="filterCarreiraEmpregabilidade==100"> Todos</em>
-										</p>
-										<div class="histFilter">
-											<ul>
-												<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterCarreiraEmpregabilidade, empty:i.v>filterCarreiraEmpregabilidade,avg:i.isAvg==true,target:i.isTarget==true}"
-												 ng-repeat="i in carreiraEmpregabilidadeHist"></li>
-											</ul>
-										</div>
+									<div ng-class="{row:isMobile, btop:isMobile}">
+										<div class="col s12 m6 l3 xl3 filterBlock hoverable">
+											<h5 class="filterTitle">
+												Carreira & Empregabilidade:
+											</h5>
+											<p class="sliderTitle sliderColor">
+												<em ng-show="filterCarreiraEmpregabilidade<100">menor que {{filterCarreiraEmpregabilidade}}</em>
+												<em ng-show="filterCarreiraEmpregabilidade==100"> Todos</em>
+											</p>
+											<div class="histFilter">
+												<ul>
+													<li style="height:{{i.h}}%" title="{{i.isAvg?'Média: ' + i.v : i.isTarget ? 'Meta ' + i.v : ''}}" ng-class="{fill:i.v<=filterCarreiraEmpregabilidade, empty:i.v>filterCarreiraEmpregabilidade,avg:i.isAvg==true,target:i.isTarget==true}"
+													 ng-repeat="i in carreiraEmpregabilidadeHist"></li>
+												</ul>
+											</div>
 
-										<p class="range-field sliderP">
-											<input type="range" ng-model="filterCarreiraEmpregabilidade" min="0" max="100" />
-										</p>
-										<p>
-											<label class="target">Meta: <span ng-bind="carreiraEmpregabilidadeMetadata.target"></span></label>
-											<label class="target">Abaixo da meta: <span ng-bind="carreiraEmpregabilidadeMetadata.belowTarget|percentage:2"></span></label>
-											<label class="avg">Média: <span ng-bind="carreiraEmpregabilidadeMetadata.avg"></span></label>
-											<label class="avg">Abaixo da média: <span ng-bind="carreiraEmpregabilidadeMetadata.belowAvg|percentage:2"></span></label>
-										</p>
+											<p class="range-field sliderP">
+												<input type="range" ng-model="filterCarreiraEmpregabilidade" min="0" max="100" />
+											</p>
+											<p>
+												<label class="target">Meta:
+													<span ng-bind="carreiraEmpregabilidadeMetadata.target"></span>
+												</label>
+												<label class="target">Abaixo da meta:
+													<span ng-bind="carreiraEmpregabilidadeMetadata.belowTarget|percentage:2"></span>
+												</label>
+												<label class="avg">Média:
+													<span ng-bind="carreiraEmpregabilidadeMetadata.avg"></span>
+												</label>
+												<label class="avg">Abaixo da média:
+													<span ng-bind="carreiraEmpregabilidadeMetadata.belowAvg|percentage:2"></span>
+												</label>
+											</p>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -203,13 +264,13 @@
 			<div class="row chartMinis">
 				<div class="col s12 m12 l6 xl6">
 					<h5 class="hBest" ng-show="mainObj.childs != null && mainObj.childs.length > 0 && isMobile == false">Destaques</h5>
-					<my-histogram ng-repeat="cd in getList(true)" data="cd" index="$index" top="false" main="true" fn="inside(index)" dlg="openHistDlg(label)"
+					<my-histogram ng-repeat="cd in getList(true)" mobile="isMobile" data="cd" index="$index" top="false" main="true" fn="inside(index)" dlg="openHistDlg(label)"
 					 ml="0"></my-histogram>
 				</div>
 				<div class="col s12 m12 l6 xl6">
 					<h5 ng-show="mainObj.childs != null && mainObj.childs.length > 0 && isMobile == false" class="hWorst">Atenção</h5>
-					<my-histogram ng-repeat="cd in getList(false)" data="cd" main="false" top="false" index="$index" fn="inside(index)"
-					 dlg="openHistDlg(label)" ml="0"></my-histogram>
+					<my-histogram ng-repeat="cd in getList(false)" mobile="isMobile" data="cd" main="false" top="false" index="$index" fn="inside(index)" dlg="openHistDlg(label)"
+					 ml="0"></my-histogram>
 				</div>
 			</div>
 		</div>
@@ -250,23 +311,24 @@
 				<h5 class="modalTitle">{{modalTitle}}</h5>
 				<div class="row align-wrapper">
 					<div class="input-field col col s6 m6 l4 xl3">
-						<select  ng-change="changeScatter()" ng-options="item as item.label for item in chartXY track by item.id " ng-model="chartY"></select>
+						<select ng-change="changeScatter()" ng-options="item as item.label for item in chartXY track by item.id " ng-model="chartY"></select>
 						<label>Vertical:</label>
 					</div>
 					<div class="input-field col s6 m6 l4 xl3">
-						<select   ng-change="changeScatter()" ng-options="item as item.label for item in chartXY track by item.id " ng-model="chartX"></select>
+						<select ng-change="changeScatter()" ng-options="item as item.label for item in chartXY track by item.id " ng-model="chartX"></select>
 						<label>Horizontal:</label>
 					</div>
-					
+
 					<div class="col s6 m2 l2 xl1 align-wrapper">
-						<input type="checkbox" id="target" ng-change="updateScatterChart()" class="filled-in" ng-checked="targetOn" ng-model="targetOn"/>
-						<label  for="target">
+						<input type="checkbox" id="target" ng-change="updateScatterChart()" class="filled-in" ng-checked="targetOn" ng-model="targetOn"
+						/>
+						<label for="target">
 							<span>Meta</span>
 						</label>
 					</div>
 					<div class="col s6 m2 l2 xl1 align-wrapper">
-						<input type="checkbox" ng-change="updateScatterChart()" id="avg" class="filled-in" ng-model="avgOn"/>
-						<label  for="avg">
+						<input type="checkbox" ng-change="updateScatterChart()" id="avg" class="filled-in" ng-model="avgOn" />
+						<label for="avg">
 							<span>Média</span>
 						</label>
 					</div>
@@ -283,14 +345,14 @@
 
 	</div>
 	<div id="preloading" onclick="skipIntroduction()">
-	
 
-	<a class="pularintro" id="linkBoraProSite" style="display:none;">Pular introdução</a>
-	<a class="pularintro" id="loadingFP" >Caregando dados...</a>
-	
+
+		<a class="pularintro" id="linkBoraProSite" style="display:none;">Pular introdução</a>
+		<a class="pularintro" id="loadingFP">Caregando dados...</a>
+
 	</div>
-	
-	
+
+
 
 	<footer class="row">
 		<div class="container">
@@ -299,15 +361,15 @@
 	</footer>
 
 	<script>
-	
-		function skipIntroduction(){
+
+		function skipIntroduction() {
 			window.introSkipped = true;
-			
+
 			$('#preloading').hide();
-				
+
 		}
-		
-	
+
+
 	</script>
 
 

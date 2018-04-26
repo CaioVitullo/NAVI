@@ -1,5 +1,8 @@
 <div class="card hoverable" ng-class="{bigCard:top==true,smallCard:top==false }"  ng-init=loadCtrl()>
-    <h5 ng-click="clickCanvas()">{{data.name}}</h5>
+    <h5 title="data.name">
+        <i ng-show="data.parentID != null && mobile==true" class="material-icons openner" title="Voltar"  ng-click="goup()">arrow_upward</i>
+      <em ng-click="clickCanvas()">{{data.name}}</em>
+    </h5>
         <div class="card-image waves-effect waves-block waves-light tac">
             
               <div class="wrapper hoverable" ng-repeat="item in data.DPQ.child track by $index">
@@ -8,9 +11,9 @@
               </div>
               <div>
                 <em class="totalValue">{{data.DPQ.valor}}</em>
-                <i ng-show="showup" class="material-icons openner" title="Voltar"  ng-click="goup()">arrow_upward</i>
+                <i ng-show="data.parentID != null && mobile==false && top == true" class="material-icons openner" title="Voltar"  ng-click="goup()">arrow_upward</i>
                 <progress style="width: 90%;margin: auto;" value="{{data.DPQ.valor}}" max="100"></progress>
-                <i class="activator material-icons openner">dehaze</i>
+                <i ng-show="mobile==false" class="activator material-icons openner">dehaze</i>
              </div>
             
         </div>

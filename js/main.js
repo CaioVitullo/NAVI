@@ -419,7 +419,9 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 		}
 		
 	};
-	
+	me.getML = function(){
+		return me.isMobile ? 0 : 40;
+	}
 
 	me.getPeriodNames = function () {
 		var month = 4;
@@ -521,7 +523,8 @@ mainApp.directive('myHistogram', function () {
 			fn: '&',
 			up: '&',
 			dlg: '&',
-			ml: '='
+			ml: '=',
+			mobile:'='
 		},
 		replace: true,
 		templateUrl: 'templates/histogram.html',
@@ -611,7 +614,7 @@ mainApp.directive('myHistogram', function () {
 				$scope.fn({ index: $scope.data.ID });
 			};
 			$scope.goup = function () {
-				$scope.up();
+				$scope.up({parentID:$scope.data.parentID});
 			};
 			$scope.openHist = function (index) {
 				$scope.dlg({ label: $scope.labels[index] });
