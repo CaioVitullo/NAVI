@@ -1172,6 +1172,7 @@ progress::-webkit-progress-value {
   .c3{
 	  width: 10%;
   }
+  
   .c1, .c2, .c3{
 	display: block;
 	float: left;
@@ -1193,7 +1194,7 @@ progress::-webkit-progress-value {
     z-index: 999;
     top: -15px;
 	left: 0;
-	margin-left: 70%;
+	margin-left:calc(70% - 12px);
 }
 
 .metaOk{

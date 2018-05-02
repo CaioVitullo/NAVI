@@ -12,7 +12,7 @@
         </div>
         <div class="c3">{{data.valor}}</div>
         <div ng-show="data.showSubMenu==true" class="wrapper" ng-repeat="item in data.child track by $index">
-           <single-line ml="ml + 40" level="level-10" data="item" ng-if="item.child == null"></single-line>
-           <multi-line ml="ml + 40" level="level-10" data="item" ng-if="item.child != null"></single-line> 
+           <single-line ml="ml + 40" meta="meta" level="level-10" data="item" ng-if="item.child == null"></single-line>
+           <multi-line ml="ml + 40" meta="meta" level="level-10" data="item" ng-if="item.child != null"></single-line> 
         </div>
 </div>

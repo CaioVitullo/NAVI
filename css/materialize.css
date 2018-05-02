@@ -2797,6 +2797,17 @@ ul.staggered-list li {
 /*********************
   Media Query Classes
 **********************/
+
+@media only screen and (max-width: 1450px) {
+  .smallCard .c1{
+    width: 37%;
+  }
+  .smallCard .c2{
+    width: 53%;
+  }
+}
+
+
 .show-on-smaller-400{display: none;}
 @media only screen and (max-width: 400px) {
   .hide-on-smaller-400 {
