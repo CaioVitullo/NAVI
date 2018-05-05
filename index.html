@@ -63,7 +63,7 @@
 					<ul id="nav-mobile" class="right hide-on-med-and-down">
 						<li></li>
 						<li>
-							<a>Entenda os indicadores</a>
+							<a ng-click="openDlgFotos()">Entenda os indicadores</a>
 						</li>
 						<li>
 							<a ng-click="changeChart()">Gráfico Radar</a>
@@ -304,6 +304,22 @@
 						<i class="material-icons left">save</i>salvar</a>
 				</div>
 
+			</div>
+		</div>
+		<div id="modalFotos" class="modal wideModal modaTall">
+			<i class="small material-icons closeFixedIcon roundIcon" onclick="closeChartDialog(this)"  title="Fechar" >cancel</i> 
+			<i class="btoNext medium material-icons rightBto" ng-click="carouselRight()">keyboard_arrow_right</i>
+			<i class="btoNext medium material-icons leftBto" ng-click="carouselLeft()">keyboard_arrow_left</i>
+			<div class="modal-content carousel carousel-slider" id="carouselDetail">
+				<div class="carousel-item bkgExp1" style="height: 100%;" >
+					
+				</div>
+				<div class="carousel-item bkgExp2" >
+					
+				</div>
+				<div class="carousel-item bkgExp3" >
+					
+				</div>
 			</div>
 		</div>
 		<div id="modal1" class="modal wideModal">

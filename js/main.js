@@ -451,7 +451,31 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 	me.getML = function(){
 		return me.isMobile ? 0 : 40;
 	}
-
+	me.firtsTimeOpenDetailDialog = true;
+	me.openDlgFotos = function(){
+		$('#modalFotos').modal('open');
+		$('#carouselDetail').css('height', '100%');
+		if (me.firtsTimeOpenDetailDialog) {
+			me.firtsTimeOpenDetailDialog = false;
+			$('.carousel.carousel-slider').carousel({
+				fullWidth: true,
+				indicators: true
+			});
+		}
+	};
+	me.carouselInstance = null;
+	me.getCarousel = function(){
+		if(me.carouselInstance == null){
+			me.carouselInstance = $('#carouselDetail');
+		}
+		return me.carouselInstance;
+	};
+	me.carouselRight = function(){
+		me.getCarousel().carousel('next');
+	};
+	me.carouselLeft = function(){
+		me.getCarousel().carousel('prev');
+	};
 	me.getPeriodNames = function () {
 		var month = 4;
 		var year = 18;
@@ -728,7 +752,9 @@ function setCover(el) {
 	$(el).find('.overCanvas').css('display', 'block');
 }
 
-
+function closeChartDialog(it) {
+	$(it).parent().modal('close');
+};
 /*
 ,
 	{

@@ -16,8 +16,23 @@ body{
 	height: 20vh;
 	margin-top: -100px;
 }
+.bkgExp1{
+	background: url('../img/INFO_DPQ_PESOS.png') 100% 100% no-repeat;
+	background-size: 100%;
+	background-position: center;
+}
+.bkgExp2{
+	background: url('../img/INFO_DPQ_INDICADORES.png') 100% 100% no-repeat;
+	background-size: 100%;
+	background-position: center;
+}
+.bkgExp3{
+	background: url('../img/INFO_DPQ_DETALHE.png') 100% 100% no-repeat;
+	background-size: 100%;
+	background-position: center;
+}
 .topo{
-	background: url('img/bg_topo.png') 50% no-repeat;
+	background: url('../img/bg_topo.png') 50% no-repeat;
 	background-size: cover;
     height: 250vh;
     width: 100%;
@@ -397,6 +412,7 @@ footer{
 	position: absolute;
 	right: -15px;
 	top: -15px;
+	z-index: 99;
 }
 .histUl{
 	width: 100%;
@@ -538,7 +554,7 @@ textarea::-webkit-input-placeholder {
     z-index: 999;
     margin: auto;
     text-align: center;
-    background: url(/img/Z0e5O.gif) no-repeat center center;
+    background: url(img/Z0e5O.gif) no-repeat center center;
     background-color: rgba(255,255,255,1);
   }
 
@@ -1194,7 +1210,7 @@ progress::-webkit-progress-value {
     z-index: 999;
     top: -15px;
 	left: 0;
-	margin-left:calc(70% - 12px);
+	
 }
 
 .metaOk{
@@ -1296,4 +1312,56 @@ label.avg{
 }
 .arrumaML{
 	margin-left: -20px;
+}
+
+.btoNext{    
+	box-shadow: 0 1px 1.5px 0 rgba(0,0,0,.12), 0 1px 1px 0 rgba(0,0,0,.24);
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    background-color: rgba(255,255,255,.35);
+    border: 0;
+     border-radius: 50%; 
+    color: #999;
+    display: inline-block;
+    font-weight: 400;
+    height: 65px;
+    line-height: normal;
+    padding: 0;
+	position: absolute;
+	top:calc(100%*0.43);
+    text-align: center;
+    text-decoration: none;
+    transition: background-color .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1);
+    width: 65px;
+    will-change: background-color,box-shadow;
+	transition: opacity .2s cubic-bezier(.4,0,.2,1),background-color .2s cubic-bezier(.4,0,.2,1),box-shadow .2s cubic-bezier(.4,0,.2,1);
+	z-index: 999;
+}
+
+.btoNext:hover{
+    background-color: rgba(255,255,255,.9);
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,.19), 0 6px 3px 0 rgba(0,0,0,.23);
+    background-color: rgba(255,255,255,.9);
+    cursor: pointer;
+}
+.btoNext.rightBto{
+	right: -32px;
+}
+.btoNext.leftBto{
+	left: -32px;
+}
+.carousel-item .btoNext{
+    padding-top: 0.5%;
+}
+.rZero{
+	right: 0px;
+}
+
+.subtitle{
+	margin-left: 10px;
+    color: silver;
+    font-size: 1.2rem
+}
+.invisible{
+	visibility: hidden;
 }

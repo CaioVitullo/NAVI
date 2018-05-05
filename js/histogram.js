@@ -186,7 +186,8 @@ function histogramManager(me){
 	me.openNotes = function(){
 		$('#modalNodes').modal('open');
 	};
-    
+	
+
 
     
 }

@@ -1,5 +1,6 @@
 function dataManager($http, me){
-    me.getFile = function(url, fileIndex , after){
+	
+	me.getFile = function(url, fileIndex , after){
 		//var url = me.getRoot('resultado') + 'cursos/file_' + courses[index] + '.txt';
 		try {
 			var ajaxConfig = { url: url, cache: false };
