@@ -269,7 +269,7 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 		{id:0, label:'DPQ', val:function(item){return item.DPQ.valor;}, target:70},
 		{id:1, label:'Qualide Ensino', val:function(item){return item.QualidadeEnsino;}, target:70},
 		{id:2, label:'Qualidade Serviço', val:function(item){return item.QualidadeServico;}, target:70},
-		{id:3, label:'ICC', val:function(item){return item.ICC;}, target:70},
+		//{id:3, label:'ICC', val:function(item){return item.ICC;}, target:70},
 		{id:4, label:'Carreira & Empregabilidade', val:function(item){return item.CarreiraEmpregabilidade;}, target:70}
 	];
 	me.chartY = me.chartXY[0];
@@ -660,7 +660,7 @@ mainApp.directive('myHistogram', function () {
 				});
 		},
 		controller: function ($scope) {
-			$scope.labels = ["Qualidade Ensino", "Qualidade Serviços", "ICC", "Carreira & Empregabilidade"];
+			$scope.labels = ["Qualidade Ensino", "Qualidade Serviços",  "Carreira & Empregabilidade"];
 			$scope.labels_provaInterna = ['Prova Modular', 'Prova Global', 'Avaliação institucional'];
 			$scope.labels_provaExterna = ['IGC', 'CPC', 'ENADE', 'Conceito de Curso'];
 
