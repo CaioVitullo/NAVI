@@ -37,6 +37,11 @@ function histogramManager(me){
 		return me.objInLine.first({ID:parentID});
 		
 	};
+	me.inlineObj = function(){
+		if(me.objInLine == null)
+			me.objInLine = me.turnObjInLine();
+		return me.objInLine;
+	}
 	me.objInLine = null;
     me.goup = function(parentID){
 		var parent = me.getItemByID(parentID);

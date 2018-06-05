@@ -1,19 +1,25 @@
 <div class="card hoverable" ng-class="{bigCard:top==true,smallCard:top==false }"  ng-init=loadCtrl()>
     <h5 title="{{data.name}}">
-        <i ng-show="data.parentID != null && mobile==true" class="material-icons openner" title="Voltar"  ng-click="goup()">arrow_upward</i>
+        <i ng-show="top==true && data.parentID != null" class="material-icons " ng-class="{openner:mobile, deskOp:mobile==false}" title="Voltar"  ng-click="goup()">arrow_upward</i>
       <em ng-click="clickCanvas()">{{data.name}}</em>
     </h5>
         <div class="card-image waves-effect waves-block waves-light tac">
             
               <div class="wrapper " ng-repeat="item in data.DPQ.child track by $index">
-                 <single-line meta="meta" ml="ml" level="100" data="item" ng-if="item.child == null"></single-line>
-                 <multi-line ml="ml" meta="meta" level="100" data="item" ng-if="item.child != null"></multi-line>
+                 <single-line meta="meta" sub="1" ml="ml" level="13" data="item" ng-if="item.child == null"></single-line>
+                 <multi-line ml="ml" meta="meta" sub="1" level="13" data="item" ng-if="item.child != null"></multi-line>
               </div>
               <div>
-                <em class="totalValue" ng-show="data.DPQ.valor != -100">{{data.DPQ.valor}}</em>
+                <em class="totalValue" ng-show="data.DPQ.valor != -100">{{data.DPQ.valor|rounded:2}}</em>
                 <em class="totalValue" ng-show="data.DPQ.valor == -100">Indefinido</em>
-                <i ng-show="data.parentID != null && mobile==false && top == true" class="material-icons openner" title="Voltar"  ng-click="goup()">arrow_upward</i>
-                <progress style="width: 90%;margin: auto;" value="{{data.DPQ.valor}}" max="100"></progress>
+                <!-- <i ng-show="data.parentID != null && mobile==false && top == true" class="material-icons openner" title="Voltar"  ng-click="goup()">arrow_upward</i> -->
+                <div class="pRel level0">
+                  <span class="meta" style="margin-left:calc(5% + {{data.DPQ.target}}% - 12px);" title="{{'meta ' + data.DPQ.target}}">
+                    <i ng-class="{metaOk:data.DPQ.valor >= data.DPQ.target, metaNao:data.DPQ.valor < data.DPQ.target}" class="material-icons" >arrow_drop_down</i>
+                  </span>
+                  <progress style="width: 90%;margin: auto;" value="{{data.DPQ.valor}}" max="100"></progress>
+                </div>
+                
                  <i ng-hide="true" ng-show="mobile==false" class="activator material-icons openner">dehaze</i> 
              </div>
             

@@ -274,8 +274,13 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 	];
 	me.chartY = me.chartXY[0];
 	me.chartX = me.chartXY[1];
+	me.selCodArea = {cod:0, label:'Todos cursos'};
+	me.codAreas = [];
+
+	me.showCodAreaDrop = false;
 	me.avgOn = false;
 	me.targetOn = false;
+	me.allOn = false
 	me.openChart = function () {
 		
 		me.modalTitle = 'Compare propriedades';
@@ -287,13 +292,29 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 	me.changeScatter = function(){
 		me.updateScatterChart();	
 	};
+	
 	me.updateScatterChart = function(){
 		var data = new google.visualization.DataTable();
+		var dataFor = me.mainObj.childs;
+		var inline;
+		if(me.selCodArea.cod != 0 ){
+			inline = me.inlineObj();
+			if(inline != null){
+				dataFor = inline.equals({codArea:me.selCodArea.cod})
+			}
+		}else if(me.allOn){
+			inline = me.inlineObj();
+			if(inline != null){
+				dataFor = inline.equals({level:me.mainObj.childs[0].level})
+			}
+		}
 
 		//data.addColumn({ type: 'number', label: name });
 		data.addColumn('number', me.chartX.label);
 		data.addColumn('number', me.chartY.label);
 		data.addColumn({ 'type': 'string', 'role': 'tooltip', 'p': { 'html': true } });
+		data.addColumn({'type': 'string', 'role': 'style'} );    
+
 		if(me.avgOn)
 			data.addColumn('number', 'Média ' + me.chartY.label);
 		
@@ -305,14 +326,18 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 		var calcXAvg = function(list){
 			var k =[];
 			for(var i = 0;i<list.length;i++){
-				k.push(me.chartX.val(list[i]));
+				var xx = me.chartX.val(list[i])
+				if(xx != -100)
+					k.push(xx);
 			}
 			return Math.round(k.avg(),2);
 		}
 		var calcYAvg = function(list){
 			var k =[];
 			for(var i = 0;i<list.length;i++){
-				k.push(me.chartY.val(list[i]));
+				var xx = me.chartY.val(list[i])
+				if(xx != -100)
+					k.push(xx);
 			}
 			return Math.round(k.avg(),2);
 		}
@@ -323,31 +348,67 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 			html += '</h5>';
 			return html;
 		};
-		
+		if(me.selCodArea.cod != 0 ){
+			getTooltip = function(item){
+				var html= '<h5 style="width:200px;font-size:1.3rem;">' +getParentName(item) + '</h5>';
+				html += '<p>' + me.chartX.label + ': ' + me.chartX.val(item) + '</p>';
+				html += '<p>' + me.chartY.label + ': ' + me.chartY.val(item) + '</p>';
+				html += '</h5>';
+				return html;
+			};
+			var getParentName = function(item){
+				var parent = inline.first({ID:item.parentID});
+				if(parent != null)
+					return parent.name;
+				return "-";
+			}
+
+		}
+		var getPointStyle = function(point){
+			if(me.allOn==false)
+				return ""
+			if(me.mainObj.childs.any({ID:point.ID}))
+				return "";//point {fill-color: green}
+			return "point {fill-color: #6ca3d2 }";
+		};
 		var d = [];
 		
 		var ap=null;
 		if(me.avgOn)
-			ap=[0,null, null, calcYAvg(me.mainObj.childs)];
+			ap=[0,null, null,null, calcYAvg(dataFor)];
 		if(me.targetOn){
 			if(ap != null){
 				ap.push(me.chartY.target)
 			}else{
-				ap=[0,null, null, me.chartY.target];
+				ap=[0,null, null,null, me.chartY.target];
 			}
 		}
 		if(ap != null)
 			d.push(ap);
 			
-		for(var i=0; i<me.mainObj.childs.length;i++){
-			var item = me.mainObj.childs[i];
+		if(me.selCodArea.cod==0){
+			me.codAreas = [];
+			me.codAreas.push(me.selCodArea);
+		}
+		
+		for(var i=0; i<dataFor.length;i++){
+			var item = dataFor[i];
+			if(me.selCodArea.cod==0 && item.codArea != null && item.codArea > 0){
+				me.codAreas.push({cod:item.codArea, label:item.name});
+				me.showCodAreaDrop=true;
+			}
+				
+			if(me.chartX.val(item)==-100 ||me.chartY.val(item)==-100)
+				continue;
+
 			var k = [
 				me.chartX.val(item),
 				me.chartY.val(item),
-				getTooltip(item)
+				getTooltip(item),
+				getPointStyle(item)
 			];
 			if(me.avgOn)
-				k.push(calcYAvg(me.mainObj.childs));
+				k.push(calcYAvg(dataFor));
 		
 			if(me.targetOn)
 				k.push(me.chartY.target);
@@ -355,13 +416,18 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 			d.push(k);
 		}
 		var af=null;
+		
+		if(me.codAreas.length > 1){
+			me.codAreas = me.codAreas.orderBy('label')
+		}
+
 		if(me.avgOn)
-			af=[100,null, null, calcYAvg(me.mainObj.childs)];
+			af=[100,null, null,null, calcYAvg(dataFor)];
 		if(me.targetOn){
 			if(af != null){
 				af.push(me.chartY.target)
 			}else{
-				af=[100,null, null, me.chartY.target];
+				af=[100,null, null,null, me.chartY.target];
 			}
 		}
 		if(af != null)
@@ -386,11 +452,15 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 		//chart.draw(data, google.charts.Scatter.convertOptions(options));
 		chart.draw(data, options);
 		if(me.avgOn){
-			me.drawVAxisLine(chart, calcXAvg(me.mainObj.childs), '#6ca3d2'); 
+			me.drawVAxisLine(chart, calcXAvg(dataFor), '#6ca3d2'); 
 		}
 		if(me.targetOn){
 			me.drawVAxisLine(chart, me.chartX.target, '#512d79'); 
 		}
+		
+		window.setTimeout(function(){
+			$('select').material_select();
+		},100);
 		
 	};
 	me.drawVAxisLine = function(chart,value, color){
@@ -553,7 +623,7 @@ mainApp.directive('singleLine', function () {
 		restrict: 'E',
 		replace: true,
 		templateUrl: 'templates/singleLine.html',
-		scope: { data: '=', level: '=', ml: '=', meta:'=' }
+		scope: { data: '=', level: '=', ml: '=', meta:'=',sub:'=' }
 	};
 });
 mainApp.directive('multiLine', function () {
@@ -561,7 +631,7 @@ mainApp.directive('multiLine', function () {
 		restrict: 'E',
 		replace: true,
 		templateUrl: 'templates/multiLine.html',
-		scope: { data: '=', level: '=', ml: '=', meta:'=' }
+		scope: { data: '=', level: '=', ml: '=', meta:'=',sub:'=' }
 	};
 });
 mainApp.directive('myHistogram', function () {
@@ -578,7 +648,8 @@ mainApp.directive('myHistogram', function () {
 			dlg: '&',
 			ml: '=',
 			mobile:'=',
-			meta:'='
+			meta:'=',
+			sub:'='
 		},
 		replace: true,
 		templateUrl: 'templates/histogram.html',

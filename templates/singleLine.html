@@ -1,13 +1,13 @@
-<div class="singleLine">
+<div class="singleLine level{{sub}} highlightHover" >
     <div class="c1 f1 m1" style="padding-left:{{ml}}px;" >
         <i class="fakeW">&nbsp;</i>
         {{data.propriedade}}
     </div>
     <div class="c2">
         <span class="meta" style="margin-left:calc({{data.target}}% - 12px);" title="{{'meta ' + data.target }}">
-            <i ng-class="{metaOk:data.valor >= meta, metaNao:data.valor < meta}" class="material-icons" >arrow_drop_down</i>
+            <i ng-class="{metaOk:data.valor >= data.target, metaNao:data.valor < data.target}" class="material-icons" >arrow_drop_down</i>
         </span>
-        <progress  style="margin-left:{{(100-level)}}%;width:{{level}}%"  value="{{data.valor}}" max="100"></progress>
+        <progress  style="height:{{level}}px"  value="{{data.valor}}" max="100"></progress>
     </div>
     <div class="c3">{{data.valor}}</div>
 </div>
