@@ -5,7 +5,7 @@
     </h5>
         <div class="card-image waves-effect waves-block waves-light tac">
             
-              <div class="wrapper " ng-repeat="item in data.DPQ.child track by $index">
+              <div class="wrapper " ng-repeat="item in data.DPQ.child.equals({hide:false}) track by $index">
                  <single-line meta="meta" sub="1" ml="ml" level="13" data="item" ng-if="item.child == null"></single-line>
                  <multi-line ml="ml" meta="meta" sub="1" level="13" data="item" ng-if="item.child != null"></multi-line>
               </div>
@@ -13,7 +13,7 @@
                 <em class="totalValue" ng-show="data.DPQ.valor != -100">{{data.DPQ.valor|rounded:2}}</em>
                 <em class="totalValue" ng-show="data.DPQ.valor == -100">Indefinido</em>
                 <!-- <i ng-show="data.parentID != null && mobile==false && top == true" class="material-icons openner" title="Voltar"  ng-click="goup()">arrow_upward</i> -->
-                <div class="pRel level0">
+                <div class="pRel level0" ng-hide="data.DPQ.hide">
                   <span class="meta" style="margin-left:calc(5% + {{data.DPQ.target}}% - 12px);" title="{{'meta ' + data.DPQ.target}}">
                     <i ng-class="{metaOk:data.DPQ.valor >= data.DPQ.target, metaNao:data.DPQ.valor < data.DPQ.target}" class="material-icons" >arrow_drop_down</i>
                   </span>

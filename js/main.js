@@ -267,7 +267,7 @@ mainApp.controller('ctrl', function ($http, $scope, $timeout, $interval) {
 
 	me.chartXY = [
 		{id:0, label:'DPQ', val:function(item){return item.DPQ.valor;}, target:70},
-		{id:1, label:'Qualide Ensino', val:function(item){return item.QualidadeEnsino;}, target:70},
+		{id:1, label:'Qualidade Ensino', val:function(item){return item.QualidadeEnsino;}, target:70},
 		{id:2, label:'Qualidade Serviço', val:function(item){return item.QualidadeServico;}, target:70},
 		//{id:3, label:'ICC', val:function(item){return item.ICC;}, target:70},
 		{id:4, label:'Carreira & Empregabilidade', val:function(item){return item.CarreiraEmpregabilidade;}, target:70}
